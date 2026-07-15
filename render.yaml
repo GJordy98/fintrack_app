@@ -1,0 +1,45 @@
+# Blueprint Render pour le backend FinTrack.
+# Le dépôt contient toute l'app ; le backend est dans le dossier `backend/`
+# (voir `rootDir` ci-dessous). Sur Render : New + > Blueprint > choisis ce dépôt.
+
+databases:
+  - name: fintrack-db
+    databaseName: fintrack
+    plan: free # Postgres gratuit (expire ~90 j, suffisant pour tester)
+
+services:
+  - type: web
+    name: fintrack-backend
+    runtime: python
+    plan: free # ⚠️ s'endort après 15 min d'inactivité (1re requête ~50 s)
+    region: frankfurt # région la plus proche du Cameroun
+    rootDir: backend # le code du serveur est dans ce sous-dossier
+    # Le plan gratuit n'a pas de shell : on crée le compte admin ici, au build,
+    # à partir des variables DJANGO_SUPERUSER_* ci-dessous (idempotent).
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate && (python manage.py createsuperuser --no-input || true)"
+    startCommand: "gunicorn fintrack_backend.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: SECRET_KEY
+        generateValue: true # Render génère une clé secrète unique
+      # Compte administrateur créé automatiquement au 1er déploiement.
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: admin
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: admin@fintrack.local
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false # à saisir dans le dashboard Render (secret)
+      # DEBUG=1 : mode test (tokens Firebase acceptés sans vérification de
+      # signature → les testeurs se connectent sans config Firebase serveur).
+      # ⚠️ PRODUCTION : passer DEBUG à 0 ET renseigner FIREBASE_CREDENTIALS.
+      - key: DEBUG
+        value: "1"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fintrack-db
+          property: connectionString
+      # Optionnel (production) : coller le CONTENU JSON du compte de service
+      # Firebase pour vérifier réellement les tokens. Laisser vide en test.
+      - key: FIREBASE_CREDENTIALS
+        sync: false

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "182007604233",
+    "project_id": "fintrack-d11b1",
+    "storage_bucket": "fintrack-d11b1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182007604233:android:841b5e21a4c823515784d8",
+        "android_client_info": {
+          "package_name": "com.edoctortim.fintrack_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182007604233-a170lsjn083g42uvsojukkqpac38dp13.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edoctortim.fintrack_app",
+            "certificate_hash": "81cf2570090b572c063c057abc7b6dfcede57753"
+          }
+        },
+        {
+          "client_id": "182007604233-p4l0o93h03uvqdnkddr919jhkn079ck1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKZ2lEmg-zoPajNc-51kVshLCZdtH2B-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182007604233-p4l0o93h03uvqdnkddr919jhkn079ck1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
