@@ -6,6 +6,10 @@ databases:
   - name: fintrack-db
     databaseName: fintrack
     plan: free # Postgres gratuit (expire ~90 j, suffisant pour tester)
+    # ⚠️ DOIT être la même région que le service web ci-dessous : l'hôte interne
+    # d'une base Render n'est résolvable que depuis sa propre région. Sinon le
+    # service ne peut pas joindre la base (« failed to resolve host dpg-… »).
+    region: frankfurt
 
 services:
   - type: web
